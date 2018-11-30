@@ -12,14 +12,81 @@
     <link rel="stylesheet" href="https://editor.silex.me/static/2.7/front-end.css" data-silex-static="">
 
     <style type="text/css" class="silex-style"></style>
-    <script type="text/javascript" class="silex-script"></script>
-    <style class="silex-inline-styles" type="text/css">.body-initial {background-color: rgba(255,255,255,1);}.silex-id-1478366444112-1 {top: 100px; background-color: transparent; min-height: 100px;}.silex-id-1478366444112-0 {min-height: 100px; background-color: transparent; width: 1200px;}.silex-id-1543616215580-0 {width: 313px; min-height: 100px; top: 1px; left: 1px;}.silex-id-1474394621033-3 {top: 5px; left: 0px;}.silex-id-1474394621032-2 {min-height: 600px; background-color: transparent; width: 1200px;}.silex-id-1478366450713-3 {top: 100px; background-color: transparent;}.silex-id-1478366450713-2 {min-height: 100px; background-color: transparent; width: 1200px;}.silex-id-1442914737143-3 {min-height: 53px; width: 349px; top: 29px; left: 430px;}</style>
+    <script type="text/javascript" class="silex-script">// wait for the HTML to be fully loaded
+$(document).ready(function () {    
+    // init the mouse parallax effect
+    $('.mouse-parallax').mousemove(function (e) {
+        mouseUpdate(e);
+    });    
+    // init the scroll parallax effect
+    $(window).scroll(function (e) {
+        scrollUpdate();
+    });
+    scrollUpdate();
+});
+// mouse parallax effect
+function mouseUpdate(e) {
+    var container = $('.mouse-parallax');
+    $('.mouse-parallax .layer-one').each(function() {
+        parallax(e.pageX, e.pageY, this, container, 1);
+    });
+    $('.mouse-parallax .layer-two').each(function() {
+        parallax(e.pageX, e.pageY, this, container, 2);
+    });
+    $('.mouse-parallax .layer-three').each(function() {
+        parallax(e.pageX, e.pageY, this, container, 3);
+    });
+}
+// scroll parallax effect
+function scrollUpdate() {
+  // just like for the mouse, but with the mouse at the center of the screen
+  var centerY = window.scrollY + ($(window).height() / 2);
+  var centerX = window.scrollX + ($(window).width() / 2);
+  var container = $('.scroll-parallax');
+  $('.scroll-parallax .layer-one').each(function() {
+      parallax(centerX, centerY, this, container, 1);
+  });
+  $('.scroll-parallax .layer-two').each(function() {
+      parallax(centerX, centerY, this, container, 2);
+  });
+  $('.scroll-parallax .layer-three').each(function() {
+      parallax(centerX, centerY, this, container, 3);
+  });
+}
+// parallax effect
+function parallax(pageX, pageY, target, container, layer) {
+    var layer_coeff = 10 / layer;
+    var offset = {};
+    var parentOffset = $(container).offset() || {};
+    var initialOffsetX = $(target).attr('data-paralax-initial-offset-x');
+    var initialOffsetY = $(target).attr('data-paralax-initial-offset-y');
+    if(typeof initialOffsetX === 'undefined') $(target).attr('data-paralax-initial-offset-x', $(target).offset().left - parentOffset.left - ($(container).width() / 2));
+    if(typeof initialOffsetY === 'undefined') $(target).attr('data-paralax-initial-offset-y', $(target).offset().top - parentOffset.top - ($(container).height() / 2));
+    // compute layer positions relatively to the parent position
+    pageX -= parentOffset.left;
+    pageY -= parentOffset.top;
+    // compute layer X position
+    var x = ($(window).width() - $(target).width()) / 2 - (pageX - ($(window).width() / 2)) / layer_coeff;
+    offset.left = x;
+    // compute layer Y position
+    var y = ($(window).height() - $(target).height()) / 2 - (pageY - ($(window).height() / 2)) / layer_coeff;
+    offset.top = y;
+    // take the offset of the container into account
+    if(parentOffset.left) offset.left += parentOffset.left;
+    if(parentOffset.top) offset.top += parentOffset.top;
+    // take the initial offset into account
+    offset.left += parseInt(initialOffsetX);
+    offset.top += parseInt(initialOffsetY);
+    // apply offset to the layer
+    $(target).offset(offset);
+}</script>
+    <style class="silex-inline-styles" type="text/css">.body-initial {background-color: rgba(255,255,255,1);}.silex-id-1478366444112-1 {top: 100px; background-color: transparent; min-height: 100px;}.silex-id-1478366444112-0 {min-height: 100px; background-color: transparent; width: 1200px;}.silex-id-1543616215580-0 {width: 313px; min-height: 100px; top: 1px; left: 1px;}.silex-id-1474394621033-3 {top: 5px; left: 0px;}.silex-id-1474394621032-2 {min-height: 600px; background-color: transparent; width: 1200px;}.silex-id-1543616817086-3 {width: 521px; background-color: rgb(255, 255, 255); min-height: 244px; top: 38px; left: 46px;}.silex-id-1478366450713-3 {top: 100px; background-color: transparent;}.silex-id-1478366450713-2 {min-height: 100px; background-color: transparent; width: 1200px;}.silex-id-1442914737143-3 {min-height: 53px; width: 349px; top: 29px; left: 430px;}</style>
     <title></title>
-    <script type="text/json" class="silex-json-styles">[{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)"},"silex-id-1474394621033-3":{"top":"5px","left":"0px"},"silex-id-1474394621032-2":{"min-height":"600px","background-color":"transparent","width":"1200px","top":"","left":"","height":""},"silex-id-1474394605264-1":{"min-height":"100px","width":"100px","top":"100px","left":"100px"},"silex-id-1474394605263-0":{"min-height":"100px","background-color":"transparent"},"silex-id-1442914737143-3":{"min-height":"53px","width":"349px","top":"29px","left":"430px","height":""},"silex-id-1478366444112-0":{"min-height":"100px","background-color":"transparent","width":"1200px","top":"","left":"","height":""},"silex-id-1478366444112-1":{"top":"100px","background-color":"transparent","min-height":"100px","left":"","height":""},"silex-id-1478366450713-2":{"min-height":"100px","background-color":"transparent","width":"1200px","top":"","left":"","height":""},"silex-id-1478366450713-3":{"top":"100px","background-color":"transparent"},"silex-id-1543616215580-0":{"width":"313px","min-height":"100px","top":"1px","left":"1px"}},"mobile":{},"prodotypeData":{"component":{},"style":{"all-style":{"className":"all-style","templateName":"text","displayName":"All style","styles":{"desktop":{"normal":{"className":"all-style","pseudoClass":"normal"}}}}}}}]</script>
+    <script type="text/json" class="silex-json-styles">[{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)"},"silex-id-1474394621033-3":{"top":"5px","left":"0px"},"silex-id-1474394621032-2":{"min-height":"600px","background-color":"transparent","width":"1200px","top":"","left":"","height":""},"silex-id-1474394605264-1":{"min-height":"100px","width":"100px","top":"100px","left":"100px"},"silex-id-1474394605263-0":{"min-height":"100px","background-color":"transparent"},"silex-id-1442914737143-3":{"min-height":"53px","width":"349px","top":"29px","left":"430px","height":""},"silex-id-1478366444112-0":{"min-height":"100px","background-color":"transparent","width":"1200px","top":"","left":"","height":""},"silex-id-1478366444112-1":{"top":"100px","background-color":"transparent","min-height":"100px","left":"","height":""},"silex-id-1478366450713-2":{"min-height":"100px","background-color":"transparent","width":"1200px","top":"","left":"","height":""},"silex-id-1478366450713-3":{"top":"100px","background-color":"transparent"},"silex-id-1543616215580-0":{"width":"313px","min-height":"100px","top":"1px","left":"1px"},"silex-id-1543616289588-1":{"width":"","background-color":"","min-height":"100px"},"silex-id-1543616817086-3":{"width":"521px","background-color":"rgb(255, 255, 255)","min-height":"244px","top":"38px","left":"46px"}},"mobile":{},"prodotypeData":{"component":{},"style":{"all-style":{"className":"all-style","templateName":"text","displayName":"All style","styles":{"desktop":{"normal":{"className":"all-style","pseudoClass":"normal"}}}}}}}]</script>
 
     
-<style class="silex-prodotype-style" type="text/css" data-style-id="all-style"></style><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.2" data-silex-viewport=""><!-- Silex HEAD tag do not remove -->
-    <!-- End of Silex HEAD tag do not remove --></head>
+<style class="silex-prodotype-style" type="text/css" data-style-id="all-style"></style><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.2" data-silex-viewport=""><!-- Silex HEAD tag do not remove --><link href="https://vjs.zencdn.net/5.0/video-js.min.css" rel="stylesheet">
+<script src="https://vjs.zencdn.net/5.0/video.min.js"></script><!-- End of Silex HEAD tag do not remove --></head>
 
 <body data-silex-id="body-initial" class="body-initial all-style enable-mobile silex-runtime" data-silex-type="container">
     <div class="silex-pages">
@@ -41,7 +108,13 @@
         <div data-silex-type="container" class="editable-style silex-element-content silex-id-1478366444112-0 silex-container-content container-element prevent-draggable website-width" data-silex-id="silex-id-1478366444112-0"><div data-silex-type="image" class="editable-style silex-id-1543616215580-0 image-element" data-silex-id="silex-id-1543616215580-0" style=""><img src="FINAL-PAATC-LOGO-BLUE-SANDHILLS.png" class="silex-element-content"></div></div>
     </div>
     <div data-silex-type="container" class="prevent-draggable container-element editable-style silex-id-1474394621033-3 section-element" data-silex-id="silex-id-1474394621033-3" style="">
-        <div data-silex-type="container" class="editable-style silex-element-content silex-id-1474394621032-2 silex-container-content container-element prevent-draggable website-width" data-silex-id="silex-id-1474394621032-2"></div>
+        <div data-silex-type="container" class="editable-style silex-element-content silex-id-1474394621032-2 silex-container-content container-element prevent-draggable website-width" data-silex-id="silex-id-1474394621032-2"><div data-silex-type="html" class="editable-style silex-id-1543616817086-3 html-element" data-silex-id="silex-id-1543616817086-3" style=""><div class="silex-element-content"><video class="video-js vjs-default-skin" controls="" preload="auto" poster="really-cool-video-poster.jpg" data-setup="{}" style="width: 100%; height: 100%;" height="100%" width="100%">
+  <source src="../../../../../396224790.mp4" type="video/mp4">
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a web browser
+    that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+  </p>
+</video></div></div></div>
     </div>
     <div data-silex-type="container" class="prevent-draggable container-element editable-style silex-id-1478366450713-3 section-element" data-silex-id="silex-id-1478366450713-3" style="">
         <div data-silex-type="container" class="editable-style silex-element-content silex-id-1478366450713-2 silex-container-content container-element prevent-draggable website-width" data-silex-id="silex-id-1478366450713-2">
